@@ -18,7 +18,7 @@ Can you help us fix some issues and implement missing features?
    * A global exception-handling middleware was introduced. This middleware intercepts all unhandled exceptions thrown during the request pipeline, logs them, and converts them into standardized HTTP responses. By registering the middleware using app.UseMiddleware<ExceptionHandlingMiddleware>(), the application ensures that exceptions are handled in a single, centralized place, instead of spreading try/catch blocks across controllers and services. This approach improves maintainability, enforces consistent error responses, and keeps the application layers clean and focused on their responsibilities. 
 
 
-	## Challenge (Nice to have)
+## Challenge (Nice to have)
 We need to implement a new feature in the system that supports automatic payment processing. Given the advancements in technology, it is essential to integrate multiple payment providers into our system.
 
 Here are the specific instructions for this implementation:
