@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MovieRental.Movie;
+using Microsoft.AspNetCore.OData.Query;
 using MovieRental.Rental;
 
 namespace MovieRental.Controllers
@@ -8,7 +8,6 @@ namespace MovieRental.Controllers
     [Route("[controller]")]
     public class RentalController : ControllerBase
     {
-
         private readonly IRentalFeatures _features;
 
         public RentalController(IRentalFeatures features)
@@ -16,12 +15,18 @@ namespace MovieRental.Controllers
             _features = features;
         }
 
-
-        [HttpPost]
-        public IActionResult Post([FromBody] Rental.Rental rental)
+        [HttpGet]
+        [EnableQuery]
+        public ActionResult<IReadOnlyList<Rental.Rental>> Get()
         {
-	        return Ok(_features.Save(rental));
+            return Ok(_features.GetRentals());
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Rental.Rental rental)
+        {
+            await _features.PerformRental(rental);
+	        return Created();
+        }
 	}
 }

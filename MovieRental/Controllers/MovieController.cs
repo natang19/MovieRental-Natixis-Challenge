@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using MovieRental.Movie;
 
 namespace MovieRental.Controllers
@@ -16,15 +17,17 @@ namespace MovieRental.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        [EnableQuery]
+        public ActionResult<IReadOnlyList<Movie.Movie>> Get()
         {
-	        return Ok(_features.GetAll());
+	        return Ok(_features.GetMovies());
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Movie.Movie movie)
+        public async Task<IActionResult> Post([FromBody] Movie.Movie movie)
         {
-	        return Ok(_features.Save(movie));
+            await _features.Save(movie);
+	        return Created();
         }
     }
 }
